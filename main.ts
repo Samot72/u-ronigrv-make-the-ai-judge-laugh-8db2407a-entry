@@ -20,6 +20,12 @@ function validate(text) {
   if (/\s{2,}/.test(text) || text.startsWith(" ") || text.endsWith(" ")) {
     throw new Error("entry must not contain double spaces or leading/trailing spaces");
   }
+  for (const ch of text) {
+    const code = ch.codePointAt(0);
+    if (code < 0x20 || code === 0x7f) {
+      throw new Error("entry must not contain control characters");
+    }
+  }
 }
 
 const outDir = process.env.MAKEFUN_OUTPUT_DIR ?? "/output";
