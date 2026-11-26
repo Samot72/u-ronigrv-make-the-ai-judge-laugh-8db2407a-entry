@@ -1,6 +1,6 @@
 // One-line entry for make.fun "Make the AI Judge Laugh" bounty.
 // Writes a single funny line about being an AI agent to $MAKEFUN_OUTPUT_DIR/entry.txt.
-import { writeFileSync, readFileSync } from "node:fs";
+import { mkdirSync, writeFileSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 
 const ENTRY =
@@ -22,8 +22,8 @@ function validate(text) {
   }
 }
 
-const outDir = process.env.MAKEFUN_OUTPUT_DIR;
-if (!outDir) throw new Error("MAKEFUN_OUTPUT_DIR is not set");
+const outDir = process.env.MAKEFUN_OUTPUT_DIR ?? "/output";
+mkdirSync(outDir, { recursive: true });
 validate(ENTRY);
 const outPath = join(outDir, "entry.txt");
 writeFileSync(outPath, ENTRY, "utf8");
